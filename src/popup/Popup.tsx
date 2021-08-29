@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
 import browser from 'webextension-polyfill'
-import { Logo } from '~/components/Logo'
 import { ConvertionType } from '~/types'
 
 const sendMessage = async (data: unknown) => {
@@ -33,32 +32,28 @@ export function Popup() {
   }, [])
 
   return (
-    <main class="w-[300px] px-4 py-5 text-center text-gray-700">
-      <Logo />
-      <div>简繁切换</div>
+    <main class="w-[300px] px-4 py-5 text-center text-gray-700 flex flex-col items-center">
+      <h1 class="text-blue-800 font-medium text-lg">简繁切换</h1>
       <button
-        class="mt-2 font-medium bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded-lg transition"
+        class="mt-2 font-medium bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg transition"
         onClick={() => setTraditional(!isTraditional)}
       >
         全局刷新为： <b>{!isTraditional ? '繁体' : '简体'}</b>
       </button>
       <div>
-        <label class="block">
-          <input
-            type="checkbox"
-            checked={bilibiliChecked === 'simplified'}
-            onClick={() => setBilibiliTracked(bilibiliChecked == 'simplified' ? null : 'simplified')}
-          />
-          打开 B 站字幕，自动切换繁体
-        </label>
-        <label class="block">
-          <input
-            type="checkbox"
-            checked={bilibiliChecked === 'traditional'}
-            onClick={() => setBilibiliTracked(bilibiliChecked == 'traditional' ? null : 'traditional')}
-          />
+        <button
+          class="block px-2 py-1 mt-2 bg-gray-200 rounded-lg transition hover:bg-gray-300"
+          onClick={() => setBilibiliTracked(bilibiliChecked == 'simplified' ? null : 'simplified')}
+        >
           打开 B 站字幕，自动切换简体
-        </label>
+        </button>
+        <button
+          class="block px-2 py-1 mt-2 bg-gray-200 rounded-lg transition hover:bg-gray-300"
+          checked={bilibiliChecked === 'traditional'}
+          onClick={() => setBilibiliTracked(bilibiliChecked == 'traditional' ? null : 'traditional')}
+        >
+          打开 B 站字幕，自动切换繁体
+        </button>
       </div>
     </main>
   )

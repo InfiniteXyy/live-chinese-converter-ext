@@ -1,43 +1,36 @@
-/* eslint-disable no-console */
 import Browser from 'webextension-polyfill'
 import { converString } from '~/logic'
 import { ConvertionType } from '~/types'
 
-console.info('[vitesse-webext] Hello world from content script')
+let liveObserver: MutationObserver | null = null
 
 Browser.runtime.onMessage.addListener(({ data }) => {
   switch (data.type) {
     case 'trigger-global': {
-      triggerGlobalConvert(data.payload.type)
+      triggerConvert(document.body, data.payload.type)
       break
     }
     case 'set-bilibili-subtitle': {
+      if (liveObserver) liveObserver.disconnect()
       if (data.payload.enabled) {
-        liveObserver.observe(document.querySelector('.subtitle-group')!, {
+        liveObserver = new MutationObserver((records) => {
+          records.forEach((record) => {
+            if (record.target instanceof HTMLElement) {
+              triggerConvert(record.target, data.payload.type)
+            }
+          })
+        })
+        liveObserver.observe(document.querySelector('[class$="subtitle-group"]')!, {
           subtree: true,
           childList: true,
           attributes: false,
         })
-        triggerConvert(document.querySelector('.subtitle-group')!, data.payload.type)
-      } else {
-        liveObserver.disconnect()
+        triggerConvert(document.querySelector('[class$="subtitle-group"]')!, data.payload.type)
       }
       break
     }
   }
 })
-
-const liveObserver = new MutationObserver((records) => {
-  records.forEach((record) => {
-    if (record.target instanceof HTMLElement) {
-      triggerConvert(record.target, 'traditional')
-    }
-  })
-})
-
-function triggerGlobalConvert(type: ConvertionType) {
-  triggerConvert(document.body, type)
-}
 
 function triggerConvert(container: HTMLElement, type: ConvertionType) {
   if (container) {

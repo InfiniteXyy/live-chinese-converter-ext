@@ -1,8 +1,8 @@
 {
-  "name": "vitesse-webext",
-  "displayName": "Vitesse WebExt",
+  "name": "live-chinese-converter-ext",
+  "displayName": " Chinese Switch",
   "version": "0.0.1",
-  "description": "[description]",
+  "description": "A simple plugin to switch chinese display between Simplified Chinese and Traditional Chinese",
   "private": true,
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
