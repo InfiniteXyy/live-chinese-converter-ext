@@ -1,9 +1,6 @@
 import { defineConfig, UserConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
-import ViteComponents from 'vite-plugin-components'
+import preact from '@preact/preset-vite'
 import WindiCSS from 'vite-plugin-windicss'
-import AutoImport from 'unplugin-auto-import/vite'
 import windiConfig from './windi.config'
 import { r, port, isDev } from './scripts/utils'
 
@@ -15,31 +12,7 @@ export const sharedConfig: UserConfig = {
     },
   },
   plugins: [
-    Vue(),
-
-    AutoImport({
-      imports: [
-        'vue',
-      ],
-      dts: r('src/auto-imports.d.ts'),
-    }),
-
-    ViteComponents({
-      dirs: [r('src/components')],
-      // generate `components.d.ts` for ts support with Volar
-      globalComponentsDeclaration: true,
-      // auto import icons
-      customComponentResolvers: [
-      // https://github.com/antfu/vite-plugin-icons
-        ViteIconsResolver({
-          componentPrefix: '',
-        }),
-      ],
-    }),
-
-    // https://github.com/antfu/vite-plugin-icons
-    ViteIcons(),
-
+    preact(),
     // rewrite assets to use relative path
     {
       name: 'assets-rewrite',
@@ -52,11 +25,10 @@ export const sharedConfig: UserConfig = {
   ],
   optimizeDeps: {
     include: [
-      'vue',
-      '@vueuse/core',
+      'react',
+      'react-dom',
     ],
     exclude: [
-      'vue-demi',
       '@vite/client',
       '@vite/env',
     ],

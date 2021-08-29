@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
-import App from './Popup.vue'
+import { render, h } from 'preact'
+import { Popup } from './Popup'
 import '../styles'
 
-const app = createApp(App)
-app.mount('#app')
+const container = document.getElementById('app')!
+render(h(Popup, null), container)

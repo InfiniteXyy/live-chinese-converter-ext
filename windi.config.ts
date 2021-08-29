@@ -7,7 +7,7 @@ export default defineConfig({
   attributify: true,
   extract: {
     include: [
-      resolve(__dirname, 'src/**/*.{vue,html}'),
+      resolve(__dirname, 'src/**/*.{tsx,html}'),
     ],
   },
 })
